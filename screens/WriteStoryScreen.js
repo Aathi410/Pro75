@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import {Header} from 'react-native-elements';
+import db from '../config';
 
 export default class WriteStoryScreen extends React.Component {
     constructor(){
@@ -10,6 +11,19 @@ export default class WriteStoryScreen extends React.Component {
             author: '',
             storyText: '',
         }
+    }
+
+    submitStory = ()=>{
+        db.collection("userStory").add({
+            title: this.state.title,
+            author: this.state.author,
+            storyText: this.state.storyText,
+        })
+        this.setState({
+            title: '',
+            author: '',
+            storyText: '',
+        })
     }
 
     render(){
@@ -52,7 +66,8 @@ export default class WriteStoryScreen extends React.Component {
                     multiline={true}/>
 
                 <TouchableOpacity
-                    style={styles.submitButton}>
+                    style={styles.submitButton}
+                    onPress={this.submitStory}>
                     <Text style={styles.buttonText}>Submit</Text>
                 </TouchableOpacity>
             </View>
